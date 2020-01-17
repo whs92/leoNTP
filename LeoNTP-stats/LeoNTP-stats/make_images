@@ -1,0 +1,123 @@
+rrdtool graph --end now --start end-1159s \
+--width 1160 --height 250 \
+--lower-limit 0 \
+--font DEFAULT:0:"Helvetica" \
+--grid-dash 1:2 \
+--vertical-label "NTP Requests per second" \
+--slope-mode \
+20m.png \
+DEF:req=ntp1.rrd:req:MAX:step=1 \
+DEF:reqa=ntp1.rrd:req:AVERAGE:step=2 \
+VDEF:reqmax=req,MAXIMUM \
+LINE2:reqa#D8B8B8 \
+LINE1:reqmax#E0E0FF \
+LINE1:req#FF0000 > /dev/null
+
+rrdtool graph --end now --start end-7200s \
+--width 1160 --height 250 \
+--lower-limit 0 \
+--font DEFAULT:0:"Helvetica" \
+--grid-dash 1:2 \
+--vertical-label "NTP Requests per second" \
+--slope-mode \
+2h.png \
+DEF:req=ntp1.rrd:req:MAX:step=1 \
+DEF:reqa=ntp1.rrd:req:AVERAGE:step=1 \
+VDEF:reqmax=req,MAXIMUM \
+LINE2:reqa#D0B0B0 \
+LINE1:reqmax#E0E0FF \
+LINE1:req#FF0000 > /dev/null
+
+rrdtool graph --end now --start end-12h \
+--width 1160 --height 250 \
+--lower-limit 0 \
+--font DEFAULT:0:"Helvetica" \
+--grid-dash 1:2 \
+--vertical-label "NTP Requests per second" \
+--slope-mode \
+12h.png \
+DEF:req=ntp1.rrd:req:MAX:step=1 \
+DEF:reqa=ntp1.rrd:req:AVERAGE:step=1 \
+VDEF:reqmax=req,MAXIMUM \
+LINE2:reqa#D0B0B0 \
+LINE1:reqmax#E0E0FF \
+LINE1:req#FF0000 > /dev/null
+
+rrdtool graph --end now --start end-48h \
+--width 1160 --height 250 \
+--lower-limit 0 \
+--font DEFAULT:0:"Helvetica" \
+--grid-dash 1:2 \
+--vertical-label "NTP Requests per second" \
+--slope-mode \
+48h.png \
+DEF:req=ntp1.rrd:req:MAX:step=1 \
+DEF:reqa=ntp1.rrd:req:AVERAGE:step=1 \
+VDEF:reqmax=req,MAXIMUM \
+LINE2:reqa#D0B0B0 \
+LINE1:reqmax#E0E0FF \
+LINE1:req#FF0000 > /dev/null
+
+rrdtool graph --end now --start end-10d \
+--width 1160 --height 250 \
+--lower-limit 0 \
+--font DEFAULT:0:"Helvetica" \
+--grid-dash 1:2 \
+--vertical-label "NTP Requests per second" \
+--slope-mode \
+10d.png \
+DEF:req=ntp1.rrd:req:MAX:step=1 \
+DEF:reqa=ntp1.rrd:req:AVERAGE:step=1 \
+VDEF:reqmax=req,MAXIMUM \
+LINE2:reqa#D0B0B0 \
+LINE1:reqmax#E0E0FF \
+LINE1:req#FF0000 > /dev/null
+
+
+rrdtool graph --end now --start end-30d \
+--width 1160 --height 250 \
+--lower-limit 0 \
+--font DEFAULT:0:"Helvetica" \
+--grid-dash 1:2 \
+--vertical-label "NTP Requests per second" \
+--slope-mode \
+30d.png \
+DEF:req=ntp1.rrd:req:AVERAGE:step=3600 \
+VDEF:reqmax=req,AVERAGE \
+LINE2:reqmax#FFFF00 \
+LINE1:req#0000FF > /dev/null
+
+rrdtool graph --end now --start end-1y \
+--width 1160 --height 250 \
+--lower-limit 0 \
+--font DEFAULT:0:"Helvetica" \
+--grid-dash 1:2 \
+--vertical-label "NTP Requests per second" \
+--slope-mode \
+1y.png \
+DEF:req=ntp1.rrd:req:AVERAGE \
+VDEF:reqmax=req,AVERAGE \
+LINE2:reqmax#FFFF00 \
+LINE1:req#0000FF > /dev/null
+
+rrdtool fetch ntp1.rrd AVERAGE -s -15m -e -14m | awk -f peak.awk
+
+convert -define png:compression-filter=3 -define png:compression-level=9 20m.png 20m.png
+convert -define png:compression-filter=3 -define png:compression-level=9 2h.png  2h.png
+convert -define png:compression-filter=3 -define png:compression-level=9 12h.png 12h.png
+convert -define png:compression-filter=3 -define png:compression-level=9 48h.png 48h.png
+convert -define png:compression-filter=3 -define png:compression-level=9 10d.png 10d.png
+convert -define png:compression-filter=3 -define png:compression-level=9 30d.png 30d.png
+convert -define png:compression-filter=3 -define png:compression-level=9 1y.png  1y.png
+
+python LeoNTP-stats-full.py > ntp1_stats.php
+
+curl -s -T ntp1_stats.php  ftp://ftp.leobodnar.com --user xxxxx:yyyyy
+
+curl -s -T 20m.png ftp://ftp.leobodnar.com --user xxxxx:yyyyy
+curl -s -T 2h.png  ftp://ftp.leobodnar.com --user xxxxx:yyyyy
+curl -s -T 12h.png ftp://ftp.leobodnar.com --user xxxxx:yyyyy
+curl -s -T 48h.png ftp://ftp.leobodnar.com --user xxxxx:yyyyy
+curl -s -T 10d.png ftp://ftp.leobodnar.com --user xxxxx:yyyyy
+curl -s -T 30d.png ftp://ftp.leobodnar.com --user xxxxx:yyyyy
+curl -s -T 1y.png  ftp://ftp.leobodnar.com --user xxxxx:yyyyy
