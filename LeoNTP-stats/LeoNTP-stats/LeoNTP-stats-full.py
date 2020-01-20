@@ -7,8 +7,8 @@ import struct, time
 import math
 from time import sleep
 
-IPADDR = 'ntp1.leontp.com'
-#IPADDR = str(sys.argv[1])	# the only cmd line argument is NTP server address
+#IPADDR = 'ntp1.leontp.com'
+IPADDR = str(sys.argv[1])	# the only cmd line argument is NTP server address
 PORTNUM = 123
 VERSION = 4	# NTP version in request
 MODE = 7	# mode 7, private
@@ -57,27 +57,27 @@ t = time.gmtime(ref_ts1 - TIME1970)
 #print "NTP server IP address:", IPADDR
 #print eol
 print ("UTC time: %d-%02d-%02d %02d:%02d:%02.0f" % (t.tm_year, t.tm_mon, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec + ref_ts0))
-print eol
+
 print ("NTP time: %02.0f" % (ref_ts1 + ref_ts0))
-print eol
+
 #derived statistics
 print ("Average load since restart: %02.0f requests per second" % (1.0 * NTP_served / uptime))
-print eol
+
 print "NTP requests served:", NTP_served
-print eol
+
 print "Mode 6 requests served:", CMD_served
-print eol
+
 print "Uptime:", uptime, "seconds (", uptime/86400, "days )"
-print eol
+
 print "GPS lock time:", lock_time, "seconds (", lock_time/86400, "days )"
-print eol
+
 #print "GPS flags:", flags
 print "Active satellites:", numSV
-print eol
+
 print ("Firmware version: %x.%02x" % (FW_ver>>8, FW_ver&0xFF))
-print eol
+
 print "Serial number:", ser_num
-print eol
+
 
 
 #print NTP_served
