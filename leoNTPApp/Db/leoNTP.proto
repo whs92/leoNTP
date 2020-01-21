@@ -1,0 +1,8 @@
+
+ReplyTimeout = 2500;
+MaxInput = 48;
+
+getStatus {
+	out "\x27\x00\x10\x01\x00\x00\x00\x00";
+	in "%*04r%*04r%*04r%*04r%#04r%(\$1ref_t1-I.VAL)#04r%(\$1uptime-I.VAL)#04r%(\$1NTPserved-I.VAL)#04r%(\$1CMDserved-I.VAL)#04r%(\$1locktime-I.VAL)#04r%(\$1flags-I.VAL)#0r%(\$1numSV-I.VAL)#0r%(\$1ser_num-I.VAL)#02r%(\$1fw_num-I.VAL)#04r";
+}

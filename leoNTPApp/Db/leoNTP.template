@@ -1,0 +1,62 @@
+record(calc, "$(P)lockedCalc-I"){
+	field(DESC, "GPS Lock")
+	field(INPA, "$(P)numSV-I")
+	field(CALC, "(A>4)?1:0")
+	field(FLNK, "$(P)locked-I")
+}
+
+record(bi, "$(P)locked-I"){
+	field(INP, "$(P)lockedCalc-I")
+	field(DTYP, "Soft Channel")
+	field(ONAM, "Locked")
+	field(ZNAM, "Unlocked")
+}
+
+record(longin, "$(P)ref_t0-I") {
+	field(DESC, "fractional part of NTP")
+	field(SCAN, "2 second")
+	field(DTYP, "stream")
+	field(INP, "@leoNTP.proto getStatus($(P)) $(PORT)")
+	field(PINI, "YES")
+}
+
+record(longin, "$(P)ref_t1-I") {
+	field(DESC, "Seconds part of NTP")
+}
+
+record(longin, "$(P)uptime-I") {
+	field(DESC, "leoNTP uptime")
+	field(EGU, "S")
+}
+
+record(longin, "$(P)NTPserved-I") {
+	field(DESC, "NTP clients served")
+}
+
+record(longin, "$(P)CMDserved-I") {
+	field(DESC, "commands served")
+}
+
+record(longin, "$(P)locktime-I") {
+	field(DESC, "time locked to SVs")
+	field(EGU, "S")
+}
+
+record(longin, "$(P)flags-I") {
+	field(DESC, "status flags")
+}
+
+record(longin, "$(P)numSV-I") {
+	field(DESC, "number of SVs in view")
+	field(LOW, "4")
+	field(FLNK,"$(P)lockedCalc-I")
+	field(EGU, "SV")
+}
+
+record(longin, "$(P)ser_num-I") {
+	field(DESC, "leoNTP serial number")
+}
+
+record(longin, "$(P)fw_num-I") {
+	field(DESC, "leoNTP firmware number")
+}

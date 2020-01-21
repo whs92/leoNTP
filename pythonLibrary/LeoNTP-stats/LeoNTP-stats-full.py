@@ -5,6 +5,7 @@ import socket
 import sys
 import struct, time
 import math
+import binascii
 from time import sleep
 
 #IPADDR = 'ntp1.leontp.com'
@@ -26,6 +27,8 @@ PACKETDATA[5] = 0
 PACKETDATA[6] = 0
 PACKETDATA[7] = 0
 
+print binascii.hexlify(PACKETDATA)
+
 # reference time (in seconds since 1900-01-01 00:00:00) for conversion from NTP time to system time
 TIME1970 = 2208988800L
 
@@ -39,6 +42,7 @@ sent = sock.sendto(PACKETDATA, server_address)
 
 # Receive response
 RX_PACKET, server = sock.recvfrom(1024)
+print binascii.hexlify(RX_PACKET)
 
 ref_ts0 	=(struct.unpack('<I',RX_PACKET[16:20])[0]) / 4294967296.0	# fractional part of the NTP timestamp
 ref_ts1 	= struct.unpack('<I',RX_PACKET[20:24])[0]	# full seconds of NTP timestamp
